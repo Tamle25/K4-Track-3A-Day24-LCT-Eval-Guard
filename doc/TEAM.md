@@ -8,7 +8,7 @@ Trưởng nhóm/người nộp: Lê Công Tâm — 2A202602406
 
 Ngày lab/deadline áp dụng: 2026-10-12 — Asia/Ho_Chi_Minh (UTC+07:00)
 
-Commit dùng để chấm: b9f8d5b (SHA trước thay đổi TEAM; cập nhật SHA đầy đủ sau commit nộp cuối)
+Commit dùng để chấm: 1b95087
 
 Mỗi nhóm nộp một repo. Điền đủ thành viên và một mục INDIVIDUAL cho từng người.
 Thêm/xóa rows để khớp nhóm thật; mẫu ba rows không ép nhóm phải có ba người.
@@ -63,6 +63,5 @@ Sao chép mẫu cho mỗi thành viên; tiêu đề họ tên không dấu-MSSV.
 
 ## Cập nhật sau khi nộp
 
-Phiên bản nộp: bản hiện tại của repo tại thời điểm hoàn thiện TEAM.md.
-Sau khi tạo commit nộp cuối, cập nhật lại dòng “Commit dùng để chấm” bằng SHA
-đầy đủ của commit đó. Chưa có cập nhật sau deadline.
+Phiên bản nộp: commit `1b95087`.
+Chưa có cập nhật sau deadline.
