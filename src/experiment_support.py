@@ -8,7 +8,7 @@ import math
 from datetime import datetime, timezone
 from pathlib import Path
 
-from config import JUDGE_MODEL, LATENCY_BUDGET_P95_MS
+from config import EFFECTIVE_API_KEY, EFFECTIVE_BASE_URL, JUDGE_MODEL, LATENCY_BUDGET_P95_MS
 
 
 def read_json(path):
@@ -109,7 +109,12 @@ def judge_binary(question, answer, reference, *, client=None):
     """Provided bridge to 0/1 calibration. Never accepts human_label/human_note."""
     if client is None:
         from openai import OpenAI
-        client = OpenAI()
+        kwargs = {}
+        if EFFECTIVE_API_KEY:
+            kwargs["api_key"] = EFFECTIVE_API_KEY
+        if EFFECTIVE_BASE_URL:
+            kwargs["base_url"] = EFFECTIVE_BASE_URL
+        client = OpenAI(**kwargs)
     response = client.chat.completions.create(
         model=JUDGE_MODEL, temperature=0,
         response_format={"type": "json_object"},

@@ -1,13 +1,18 @@
 """Run submitted experiments explicitly. Default tests never call paid APIs."""
 from __future__ import annotations
 
+try:
+    import torch  # Pre-load PyTorch DLLs on Windows before other packages
+except Exception:
+    pass
+
 import argparse
 from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from config import OPENAI_API_KEY
+from config import EFFECTIVE_API_KEY
 from src.experiment_support import require_completed
 from src.experiment_runners import run_phase_a, run_phase_b, run_phase_c
 
@@ -20,8 +25,8 @@ def main(argv=None):
     args = parser.parse_args(argv)
     if not args.live:
         parser.error("Real experiments require --live. Use python -m pytest for offline unit tests.")
-    if not OPENAI_API_KEY:
-        parser.error("Set OPENAI_API_KEY in .env; never put the key in source.")
+    if not EFFECTIVE_API_KEY:
+        parser.error("Set an API key in .env; never put the key in source.")
     from src import phase_a_ragas, phase_b_judge, phase_c_guard
     modules = {"a": phase_a_ragas, "b": phase_b_judge, "c": phase_c_guard}
     selected = list(modules) if args.phase == "all" else [args.phase]

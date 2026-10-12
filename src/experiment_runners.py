@@ -6,6 +6,7 @@ from dataclasses import asdict
 from pathlib import Path
 
 from config import (ADVERSARIAL_SET_PATH, ANSWERS_PATH, ARTIFACTS_DIR, CLEAN_SET_PATH,
+                    EFFECTIVE_API_KEY, EFFECTIVE_BASE_URL,
                     HUMAN_LABELS_PATH, OUTPUT_SET_PATH, PAIR_QUESTION_IDS, TEST_SET_PATH)
 from src.experiment_support import (JUDGE_MODEL, generation_models, guard_models, judge_binary,
                                     metadata, model_ids, read_json, write_json)
@@ -53,7 +54,12 @@ def run_phase_b():
         results.append({"question_id": qid, **asdict(result)})
     judgments = []
     from openai import OpenAI
-    binary_client = OpenAI()
+    client_kwargs = {}
+    if EFFECTIVE_API_KEY:
+        client_kwargs["api_key"] = EFFECTIVE_API_KEY
+    if EFFECTIVE_BASE_URL:
+        client_kwargs["base_url"] = EFFECTIVE_BASE_URL
+    binary_client = OpenAI(**client_kwargs)
     for human in humans:
         # Exact supplied answer. Never pass human_label or human_note into judge_binary.
         result = judge_binary(human["question"], human["model_answer"],
